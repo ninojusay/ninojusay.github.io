@@ -1,0 +1,21 @@
+CERTIFICATE OF COMPLETION
+=====================================
+
+This certifies that
+
+SATURNINO JUSAY
+
+has successfully completed the course in
+
+CYBER SECURITY
+
+with proficiency in network security, threat analysis, and security protocols.
+
+Date Issued: 2024
+Credential ID: CERT-CS-003
+
+=====================================
+This is a placeholder certificate. Replace with your actual PDF file.
+To add your real certificate:
+1. Save your PDF as cert-3.pdf in this folder
+2. Delete this .txt file
