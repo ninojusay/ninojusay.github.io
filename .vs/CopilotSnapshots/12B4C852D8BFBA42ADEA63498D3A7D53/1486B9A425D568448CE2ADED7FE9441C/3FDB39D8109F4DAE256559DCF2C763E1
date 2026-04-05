@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -481,49 +481,41 @@
     </footer>
 
     <script src="script.js"></script>
-    <script src="gemini-api.js"></script>
-    <script src="chatbot.js"></script>
 
     <!-- Chatbot Widget -->
     <script>
         (function () {
-            const chatbot = new ChatbotAgent();
-            
-            // Initialize Gemini API with your API key
-            chatbot.initializeGemini('AIzaSyC9ZFKfdKRPUgfZMsh5Gzk4EYBBL4A6j_s');
-            
             const chatHTML = `
                     <div id="chatbot-widget" style="position: fixed; bottom: 20px; right: 20px; width: 350px; height: 0px; z-index: 9998; font-family: 'Poppins', sans-serif; transition: height 0.3s ease;">
                         <div id="chatbot-header" style="background: linear-gradient(135deg, crimson 0%, #c41e3a 100%); padding: 16px; border-radius: 8px 8px 0 0; color: white; cursor: pointer; box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);">
                             <div style="display: flex; justify-content: space-between; align-items: center;">
                                 <div>
-                                    <div style="font-weight: 600; font-size: 14px;">🤖 AI Assistant</div>
-                                    <div style="font-size: 12px; opacity: 0.9;">Online & Intelligent</div>
+                                    <div style="font-weight: 600; font-size: 14px;">💬 Chat with Me</div>
+                                    <div style="font-size: 12px; opacity: 0.9;">Online & Ready to Help</div>
                                 </div>
                                 <button id="chatbot-close" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer;">✕</button>
                             </div>
                         </div>
                         <div id="chatbot-body" style="background: #f9f9f9; height: 280px; overflow-y: auto; border-left: 1px solid #ddd; border-right: 1px solid #ddd;">
                             <div style="padding: 16px; text-align: center; color: #666; font-size: 14px;">
-                                <p style="margin-bottom: 12px;">👋 Hi! I'm Saturnino's AI Assistant.</p>
-                                <p style="margin-bottom: 10px; font-weight: 500;">Ask me about:</p>
-                                <ul style="text-align: left; display: inline-block; color: #555; margin: 0; padding: 0; list-style: none; font-size: 13px;">
-                                    <li>💼 Projects & Capstone</li>
+                                <p style="margin-bottom: 12px;">👋 Hi! I'm Saturnino's Assistant.</p>
+                                <p>Ask me about:</p>
+                                <ul style="text-align: left; display: inline-block; color: #555;">
+                                    <li>💼 Projects & Experience</li>
                                     <li>🛠️ Tech Stack & Skills</li>
-                                    <li>🤝 Collaboration & Hiring</li>
-                                    <li>📞 Contact & Social</li>
-                                    <li>🚀 Services & Expertise</li>
+                                    <li>📞 Contact & Collaboration</li>
+                                    <li>🎓 Capstone Project</li>
                                 </ul>
                             </div>
                         </div>
                         <div id="chatbot-input-area" style="background: white; padding: 12px; border: 1px solid #ddd; border-top: none; border-radius: 0 0 8px 8px; display: flex; gap: 8px;">
-                            <input type="text" id="chatbot-input" placeholder="Ask me anything..." style="flex: 1; border: 1px solid #ddd; padding: 8px; border-radius: 4px; font-size: 13px; font-family: 'Poppins', sans-serif;">
+                            <input type="text" id="chatbot-input" placeholder="Type a message..." style="flex: 1; border: 1px solid #ddd; padding: 8px; border-radius: 4px; font-size: 13px; font-family: 'Poppins', sans-serif;">
                             <button id="chatbot-send" style="background: linear-gradient(135deg, crimson 0%, #c41e3a 100%); color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 500;">Send</button>
                         </div>
                     </div>
 
                     <button id="chatbot-toggle" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, crimson 0%, #c41e3a 100%); border: none; color: white; font-size: 28px; cursor: pointer; box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3); transition: transform 0.3s ease; display: flex; align-items: center; justify-content: center;">
-                        🤖
+                        💬
                     </button>
                 `;
 
@@ -536,18 +528,9 @@
             const sendBtn = document.getElementById('chatbot-send');
             const body = document.getElementById('chatbot-body');
 
-            let isFirstMessage = true;
-
             toggle.addEventListener('click', () => {
                 widget.style.height = '500px';
                 toggle.style.display = 'none';
-                if (isFirstMessage) {
-                    body.innerHTML = '';
-                    isFirstMessage = false;
-                    const greeting = chatbot.greetings[Math.floor(Math.random() * chatbot.greetings.length)];
-                    addMessage(greeting, 'bot');
-                }
-                input.focus();
             });
 
             closeBtn.addEventListener('click', () => {
@@ -560,10 +543,8 @@
                 msgDiv.style.padding = '12px 16px';
                 msgDiv.style.marginBottom = '8px';
                 msgDiv.style.borderRadius = '6px';
-                msgDiv.style.maxWidth = '85%';
+                msgDiv.style.maxWidth = '80%';
                 msgDiv.style.wordWrap = 'break-word';
-                msgDiv.style.lineHeight = '1.4';
-                
                 if (sender === 'user') {
                     msgDiv.style.background = 'linear-gradient(135deg, crimson 0%, #c41e3a 100%)';
                     msgDiv.style.color = 'white';
@@ -573,62 +554,40 @@
                     msgDiv.style.background = '#fff';
                     msgDiv.style.borderLeft = '3px solid crimson';
                     msgDiv.style.color = '#333';
-                    msgDiv.style.fontSize = '13px';
                 }
-                
-                msgDiv.innerHTML = formatMessage(text);
+                msgDiv.textContent = text;
                 body.appendChild(msgDiv);
                 body.scrollTop = body.scrollHeight;
             }
 
-            function formatMessage(text) {
-                text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                text = text.replace(/\n/g, '<br>');
-                text = text.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" style="color: #c41e3a; text-decoration: underline;">$1</a>');
-                return text;
-            }
-
-            async function sendMessage() {
-                const userInput = input.value.trim();
-                if (!userInput) return;
-
-                addMessage(userInput, 'user');
-                input.value = '';
-                
-                // Show loading indicator
-                const loadingDiv = document.createElement('div');
-                loadingDiv.id = 'chatbot-loading';
-                loadingDiv.style.padding = '12px 16px';
-                loadingDiv.style.textAlign = 'center';
-                loadingDiv.style.color = '#666';
-                loadingDiv.innerHTML = '⏳ Thinking...';
-                body.appendChild(loadingDiv);
-                body.scrollTop = body.scrollHeight;
-
-                // Wait for response (async now)
-                setTimeout(async () => {
-                    const response = await chatbot.chat(userInput);
-                    
-                    // Remove loading indicator
-                    const loading = document.getElementById('chatbot-loading');
-                    if (loading) loading.remove();
-                    
-                    if (response) {
+            sendBtn.addEventListener('click', () => {
+                if (input.value.trim()) {
+                    addMessage(input.value, 'user');
+                    const userMsg = input.value.toLowerCase();
+                    input.value = '';
+                    setTimeout(() => {
+                        let response = '👋 Thanks for your message! ';
+                        if (userMsg.includes('project') || userMsg.includes('work') || userMsg.includes('capstone')) {
+                            response += 'My main project is the Online Teacher Evaluation System — built with ASP.NET MVC, C#, and MSSQL. I also have WordPress, Angular, and Node.js projects!';
+                        } else if (userMsg.includes('skill') || userMsg.includes('tech') || userMsg.includes('stack')) {
+                            response += 'I work with Angular, JavaScript, Node.js, ASP.NET MVC (C#), MySQL, MSSQL, WordPress, Bootstrap, and more!';
+                        } else if (userMsg.includes('contact') || userMsg.includes('hire')) {
+                            response += 'You can reach me at ninojusay2@gmail.com or scroll down to the Contact section. Let\'s work together! 😊';
+                        } else if (userMsg.includes('wordpress')) {
+                            response += 'I have experience building and customizing WordPress websites including custom module development!';
+                        } else if (userMsg.includes('database') || userMsg.includes('mysql') || userMsg.includes('mssql') || userMsg.includes('sql')) {
+                            response += 'I work with both MySQL and Microsoft SQL Server (MSSQL). My capstone used MSSQL with Entity Framework ORM.';
+                        } else {
+                            response += 'Feel free to explore my portfolio or contact me directly at ninojusay2@gmail.com. 😊';
+                        }
                         addMessage(response, 'bot');
-                    }
-                }, 300);
-            }
-
-            sendBtn.addEventListener('click', sendMessage);
-
-            input.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    sendMessage();
+                    }, 500);
                 }
             });
 
-            toggle.style.display = 'flex';
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendBtn.click();
+            });
         })();
     </script>
 </body>

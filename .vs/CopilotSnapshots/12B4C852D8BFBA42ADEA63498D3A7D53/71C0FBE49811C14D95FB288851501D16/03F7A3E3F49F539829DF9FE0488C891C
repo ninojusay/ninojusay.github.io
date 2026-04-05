@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -489,8 +489,9 @@
         (function () {
             const chatbot = new ChatbotAgent();
             
-            // Initialize Gemini API with your API key
-            chatbot.initializeGemini('AIzaSyC9ZFKfdKRPUgfZMsh5Gzk4EYBBL4A6j_s');
+            // Try to initialize Gemini API if key is available from environment or config
+            // TO USE: Uncomment below and add your Gemini API key
+            // chatbot.initializeGemini('YOUR_GEMINI_API_KEY_HERE');
             
             const chatHTML = `
                     <div id="chatbot-widget" style="position: fixed; bottom: 20px; right: 20px; width: 350px; height: 0px; z-index: 9998; font-family: 'Poppins', sans-serif; transition: height 0.3s ease;">

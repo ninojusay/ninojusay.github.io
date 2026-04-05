@@ -1,0 +1,387 @@
+﻿/**
+ * Intelligent Chatbot Agent with Gemini AI Integration
+ * Context-aware conversational AI for portfolio
+ */
+
+class ChatbotAgent {
+    constructor(geminiApiKey = null, useBackend = false) {
+        this.conversationHistory = [];
+        this.geminiAPI = null;
+        
+        // Initialize Gemini API if key provided
+        if (typeof GeminiAPI !== 'undefined') {
+            this.geminiAPI = new GeminiAPI(geminiApiKey, useBackend);
+        }
+        
+        this.context = {
+            userMentionedProjects: [],
+            userMentionedSkills: [],
+            interestedInHiring: false,
+            interestedInCollaboration: false,
+            conversationPhase: 'greeting',
+            useAI: !!this.geminiAPI && this.geminiAPI.isConfigured()
+        };
+        
+        this.knowledgeBase = {
+            profile: {
+                name: 'Saturnino Jusay',
+                title: 'Full-Stack Web Developer',
+                email: 'ninojusay2@gmail.com',
+                location: 'Cebu City, Philippines',
+                bio: 'BSIT student at Golden Success College with hands-on experience in full-stack web development'
+            },
+            skills: {
+                frontend: ['HTML5', 'CSS3', 'JavaScript', 'Angular', 'Bootstrap', 'jQuery'],
+                backend: ['ASP.NET MVC', 'C#', 'Node.js', 'Express', 'PHP'],
+                database: ['MySQL', 'Microsoft SQL Server', 'Entity Framework'],
+                tools: ['Git', 'GitHub', 'Postman', 'Visual Studio', 'VS Code', 'WordPress'],
+                design: ['Photo Editing', 'Graphic Design', 'Video Editing', 'UI/UX']
+            },
+            projects: {
+                capstone: {
+                    name: 'Online Teacher Evaluation System',
+                    description: 'Web-based system that automates student-to-teacher matching and generates performance reports',
+                    tech: ['ASP.NET MVC', 'C#', 'Entity Framework', 'MSSQL'],
+                    institution: 'Golden Success College – Cebu Campus',
+                    link: 'http://goldentecheval.runasp.net'
+                },
+                wordpress: {
+                    name: 'WordPress Website Development',
+                    description: 'Custom WordPress sites with theme customization, plugin configuration, and module development',
+                    tech: ['WordPress', 'PHP', 'CSS', 'JavaScript'],
+                    link: 'https://octanity.net/'
+                },
+                angular: {
+                    name: 'Angular Frontend Application',
+                    description: 'Responsive frontend with component-based architecture, data binding, and API integration',
+                    tech: ['Angular', 'JavaScript', 'Bootstrap', 'HTML/CSS']
+                },
+                nodejs: {
+                    name: 'Node.js REST API',
+                    description: 'Backend REST API with Express, MySQL database integration, and JWT authentication',
+                    tech: ['Node.js', 'Express', 'MySQL', 'JavaScript']
+                },
+                portfolio: {
+                    name: 'Personal Portfolio Website',
+                    description: 'This portfolio site with smooth animations and responsive design',
+                    tech: ['HTML', 'CSS', 'JavaScript', 'jQuery']
+                }
+            },
+            services: [
+                'Web Design & Development',
+                'Frontend Development',
+                'Backend Development',
+                'Full-Stack Development',
+                'WordPress Development',
+                'Database Design & Management',
+                'Graphic Design'
+            ],
+            achievements: [
+                'Capstone Project Completion',
+                'Full-Stack Capstone Developer',
+                'WordPress Module Development',
+                'Multi-Technology Proficiency',
+                'BSIT Candidate at Golden Success College'
+            ],
+            socialLinks: {
+                facebook: 'https://web.facebook.com/ninzyo',
+                instagram: 'https://www.instagram.com/ninoz_punk/',
+                telegram: 'https://t.me/saturninojusay',
+                youtube: 'https://www.youtube.com/@diaryngcrew9728',
+                tiktok: 'https://www.tiktok.com/@saturninojusay',
+                github: 'https://github.com/ninojusay'
+            }
+        };
+
+        this.greetings = [
+            "Hi there! 👋 I'm Saturnino's AI assistant. How can I help you today?",
+            "Hello! 😊 Ready to learn about Saturnino's work and experience?",
+            "Welcome! 🚀 What would you like to know about?"
+        ];
+
+        this.intentPatterns = [
+            // Project inquiries
+            {
+                intent: 'project_inquiry',
+                patterns: ['project', 'projects', 'work', 'portfolio', 'built', 'created', 'developed', 'capstone', 'case study'],
+                responses: ['projects_detailed']
+            },
+            // Skills inquiries
+            {
+                intent: 'skills_inquiry',
+                patterns: ['skill', 'skills', 'tech', 'technology', 'stack', 'know', 'expertise', 'proficiency', 'language'],
+                responses: ['skills_detailed']
+            },
+            // Hiring/Collaboration
+            {
+                intent: 'hiring_inquiry',
+                patterns: ['hire', 'hiring', 'job', 'position', 'opportunity', 'collaborate', 'collaboration', 'work together', 'interested'],
+                responses: ['hiring_response']
+            },
+            // Contact
+            {
+                intent: 'contact_inquiry',
+                patterns: ['contact', 'reach', 'email', 'phone', 'message', 'connect', 'social', 'linkedin', 'facebook', 'instagram'],
+                responses: ['contact_info']
+            },
+            // Specific technologies
+            {
+                intent: 'tech_specific',
+                patterns: ['angular', 'nodejs', 'react', 'vue', 'asp.net', 'c#', 'mysql', 'mssql', 'wordpress', 'express', 'javascript', 'typescript', 'python', 'java'],
+                responses: ['tech_specific_response']
+            },
+            // Experience/Background
+            {
+                intent: 'background',
+                patterns: ['background', 'education', 'experience', 'student', 'bsit', 'college', 'university', 'qualifications', 'about'],
+                responses: ['background_response']
+            },
+            // Capstone specific
+            {
+                intent: 'capstone',
+                patterns: ['capstone', 'teacher evaluation', 'golden success', 'thesis', 'final project'],
+                responses: ['capstone_response']
+            },
+            // Services
+            {
+                intent: 'services',
+                patterns: ['services', 'offer', 'help', 'can you', 'what do you do', 'do you provide'],
+                responses: ['services_response']
+            }
+        ];
+    }
+
+    // Normalize input for pattern matching
+    normalizeInput(input) {
+        return input.toLowerCase().trim().replace(/[^\w\s]/g, '');
+    }
+
+    // Extract keywords from input
+    extractKeywords(input) {
+        const normalized = this.normalizeInput(input);
+        const words = normalized.split(/\s+/);
+        return words;
+    }
+
+    // Detect user intent
+    detectIntent(input) {
+        const keywords = this.extractKeywords(input);
+        let matchedIntents = [];
+
+        for (let pattern of this.intentPatterns) {
+            const hasMatch = pattern.patterns.some(p => keywords.includes(p));
+            if (hasMatch) {
+                matchedIntents.push({
+                    intent: pattern.intent,
+                    responses: pattern.responses,
+                    matchCount: pattern.patterns.filter(p => keywords.includes(p)).length
+                });
+            }
+        }
+
+        // Return intent with highest match count
+        if (matchedIntents.length > 0) {
+            matchedIntents.sort((a, b) => b.matchCount - a.matchCount);
+            return matchedIntents[0];
+        }
+
+        return null;
+    }
+
+    // Generate context-aware response
+    generateResponse(intent, userInput) {
+        if (!intent) {
+            return this.generateFallbackResponse(userInput);
+        }
+
+        const responseType = intent.responses[0];
+        const keywords = this.extractKeywords(userInput);
+
+        switch (responseType) {
+            case 'projects_detailed':
+                return this.generateProjectResponse(keywords);
+
+            case 'skills_detailed':
+                return this.generateSkillsResponse(keywords);
+
+            case 'hiring_response':
+                this.context.interestedInHiring = true;
+                return this.generateHiringResponse();
+
+            case 'contact_info':
+                return this.generateContactResponse();
+
+            case 'tech_specific_response':
+                return this.generateTechResponse(keywords);
+
+            case 'background_response':
+                return this.generateBackgroundResponse();
+
+            case 'capstone_response':
+                return this.generateCapstoneResponse();
+
+            case 'services_response':
+                return this.generateServicesResponse();
+
+            default:
+                return this.generateFallbackResponse(userInput);
+        }
+    }
+
+    generateProjectResponse(keywords) {
+        const responses = [
+            `📁 **My Projects:** I've worked on several diverse projects:\n\n• **Capstone: Online Teacher Evaluation System** - ASP.NET MVC, C#, MSSQL\n• **WordPress Development** - Custom sites & modules at octanity.net\n• **Angular Frontend** - Responsive component-based application\n• **Node.js REST API** - Backend with MySQL integration\n• **This Portfolio** - HTML, CSS, JavaScript, jQuery\n\nWhich project interests you most?`,
+            
+            `🚀 **Project Showcase:**\nMy strongest achievement is the **Online Teacher Evaluation System** (capstone). It automates student evaluation processes with ASP.NET MVC & MSSQL.\n\nI also specialize in WordPress development and have experience with modern frameworks like Angular and Node.js. Which area would you like to explore?`
+        ];
+
+        // Prioritize capstone if mentioned
+        if (keywords.includes('capstone') || keywords.includes('evaluation')) {
+            return this.generateCapstoneResponse();
+        }
+
+        // Check for specific tech mentions
+        if (keywords.includes('wordpress')) {
+            return `🎨 **WordPress Projects:**\nI've built custom WordPress sites with theme customization, plugin development, and modules. Check out my work at octanity.net for live examples. Ready to discuss WordPress needs?`;
+        }
+
+        if (keywords.includes('angular') || keywords.includes('react')) {
+            return `⚡ **Frontend Development:**\nI specialize in Angular for component-based, responsive applications. I also work with React, Vue, and vanilla JavaScript. What frontend challenge are you facing?`;
+        }
+
+        if (keywords.includes('nodejs') || keywords.includes('backend')) {
+            return `🔧 **Backend Development:**\nMy Node.js projects include REST APIs with Express and database integration. I also use ASP.NET MVC for robust enterprise solutions. What backend requirements do you have?`;
+        }
+
+        return responses[Math.floor(Math.random() * responses.length)];
+    }
+
+    generateSkillsResponse(keywords) {
+        let response = `🎯 **Technical Skills:**\n\n`;
+        response += `**Frontend:** HTML5, CSS3, JavaScript, Angular, Bootstrap, jQuery\n`;
+        response += `**Backend:** ASP.NET MVC, C#, Node.js, Express, PHP\n`;
+        response += `**Database:** MySQL, MSSQL, Entity Framework\n`;
+        response += `**Tools:** Git, GitHub, Visual Studio, VS Code, Postman\n`;
+        response += `**Design:** Graphic Design, Photo Editing, Video Editing\n\n`;
+        response += `My strongest areas are **Full-Stack Development** and **ASP.NET MVC**. What tech stack are you interested in?`;
+
+        return response;
+    }
+
+    generateHiringResponse() {
+        return `💼 **Collaboration & Hiring:**\nI'm open to new opportunities! I bring full-stack expertise, proven project completion, and a strong work ethic.\n\n✅ Available for:\n• Remote projects\n• Contract work\n• Internships/Entry-level roles\n• Freelance development\n\nLet's discuss your needs! Reach me at **ninojusay2@gmail.com** or connect on social media. What type of opportunity are you looking for?`;
+    }
+
+    generateContactResponse() {
+        return `📞 **Get in Touch:**\n\n📧 **Email:** ninojusay2@gmail.com\n📍 **Location:** Cebu City, Philippines\n\n**Social Media:**\n• Facebook: facebook.com/ninzyo\n• Instagram: @ninoz_punk\n• GitHub: github.com/ninojusay\n• Telegram: @saturninojusay\n• YouTube: @diaryngcrew9728\n\nFeel free to reach out via any channel! I typically respond quickly. 😊`;
+    }
+
+    generateTechResponse(keywords) {
+        const responses = {
+            angular: `⚡ **Angular:** I build responsive, component-based applications using Angular with data binding and API integration. It's my go-to for complex frontend projects.`,
+            nodejs: `🟢 **Node.js:** I develop backend REST APIs using Node.js & Express with MySQL integration. Great for scalable, JavaScript-based solutions.`,
+            aspnet: `🟦 **ASP.NET MVC:** My primary backend framework. I use it for enterprise applications with C# and MSSQL. My capstone uses this stack!`,
+            csharp: `🟦 **C#:** Powerful language I use extensively with ASP.NET MVC for backend development and object-oriented programming.`,
+            mysql: `💾 **MySQL:** My go-to relational database for web applications. Used in multiple projects including Node.js REST APIs.`,
+            mssql: `💾 **MSSQL:** Enterprise database used in my capstone. I work with Entity Framework ORM for seamless integration.`,
+            wordpress: `📝 **WordPress:** Beyond basic WordPress, I develop custom plugins, modules, and themes for specific business needs.`,
+            javascript: `✨ **JavaScript:** Core frontend language. I'm proficient in vanilla JS, jQuery, and modern frameworks like Angular.`
+        };
+
+        for (let [tech, description] of Object.entries(responses)) {
+            if (keywords.includes(tech)) {
+                return description;
+            }
+        }
+
+        return `🛠️ **Technology Stack:**\nI'm proficient in multiple tech stacks. What specific technology are you curious about? ASP.NET, Angular, Node.js, WordPress?`;
+    }
+
+    generateBackgroundResponse() {
+        return `🎓 **Background & Experience:**\n\nI'm a **BSIT (Bachelor of Science in Information Technology)** student at **Golden Success College – Cebu Campus**.\n\n📚 **Experience:**\n• Full-stack web development\n• Real-world capstone project\n• WordPress development\n• Hands-on with multiple tech stacks\n• Problem-solving and system design\n\nI combine academic learning with practical project experience. Currently focused on completing my degree and building impressive solutions! 🚀`;
+    }
+
+    generateCapstoneResponse() {
+        return `🎓 **Capstone: Online Teacher Evaluation System**\n\n**What it does:**\nAutomates student-to-teacher matching and generates comprehensive performance reports.\n\n**Tech Stack:**\n• Framework: ASP.NET MVC\n• Language: C#\n• Database: Microsoft SQL Server (MSSQL)\n• ORM: Entity Framework\n• Frontend: Razor Views, Bootstrap\n\n**Institution:** Golden Success College – Cebu Campus\n\n**Current Status:** Live at: http://goldentecheval.runasp.net\n\nThis project showcases my full-stack capabilities and ability to build enterprise-grade systems. Want to know more about specific features?`;
+    }
+
+    generateServicesResponse() {
+        return `💼 **Services I Offer:**\n\n🎨 Web Design & Development\n⚡ Frontend Development (Angular, JavaScript, Bootstrap)\n🔧 Backend Development (ASP.NET MVC, Node.js)\n🗄️ Database Design & Management (MySQL, MSSQL)\n📝 WordPress Development & Customization\n🎯 Full-Stack Development\n🖼️ Graphic Design\n\nI combine technical expertise with creative problem-solving. What can I help you build? 🚀`;
+    }
+
+    generateFallbackResponse(userInput) {
+        const fallbacks = [
+            `😊 That's a great question! Could you be more specific? I can help with: projects, skills, services, or getting in touch.`,
+            `🤔 Hmm, I'm still learning! Try asking about my **projects**, **skills**, **experience**, or **how to contact me**.`,
+            `💡 Not sure about that, but I'm here to help with anything about Saturnino's work. Ask about the **capstone project**, **tech stack**, or **collaboration opportunities**!`,
+            `✨ I'd love to help! Are you interested in learning about my **projects**, **technical skills**, **services**, or **getting in touch**?`
+        ];
+
+        return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+    }
+
+    /**
+     * Main chat method with AI integration
+     */
+    async chat(userMessage) {
+        if (!userMessage || userMessage.trim() === '') {
+            return null;
+        }
+
+        this.conversationHistory.push({
+            role: 'user',
+            message: userMessage,
+            timestamp: new Date()
+        });
+
+        // Try AI-powered response first if configured
+        if (this.context.useAI && this.geminiAPI) {
+            try {
+                const aiResponse = await this.geminiAPI.chat(userMessage);
+                if (aiResponse) {
+                    this.conversationHistory.push({
+                        role: 'bot',
+                        message: aiResponse,
+                        timestamp: new Date()
+                    });
+                    return aiResponse;
+                }
+            } catch (error) {
+                console.log('AI response failed, using fallback:', error);
+            }
+        }
+
+        // Fall back to local pattern-based response
+        const intent = this.detectIntent(userMessage);
+        const response = this.generateResponse(intent, userMessage);
+
+        this.conversationHistory.push({
+            role: 'bot',
+            message: response,
+            timestamp: new Date()
+        });
+
+        return response;
+    }
+
+    /**
+     * Initialize Gemini API with key
+     */
+    initializeGemini(apiKey, useBackend = false) {
+        if (typeof GeminiAPI !== 'undefined') {
+            this.geminiAPI = new GeminiAPI(apiKey, useBackend);
+            this.context.useAI = true;
+            return true;
+        }
+        return false;
+    }
+
+    getConversationContext() {
+        return this.context;
+    }
+}
+
+// Export for use
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = ChatbotAgent;
+}

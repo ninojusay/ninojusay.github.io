@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -481,16 +481,12 @@
     </footer>
 
     <script src="script.js"></script>
-    <script src="gemini-api.js"></script>
     <script src="chatbot.js"></script>
 
     <!-- Chatbot Widget -->
     <script>
         (function () {
             const chatbot = new ChatbotAgent();
-            
-            // Initialize Gemini API with your API key
-            chatbot.initializeGemini('AIzaSyC9ZFKfdKRPUgfZMsh5Gzk4EYBBL4A6j_s');
             
             const chatHTML = `
                     <div id="chatbot-widget" style="position: fixed; bottom: 20px; right: 20px; width: 350px; height: 0px; z-index: 9998; font-family: 'Poppins', sans-serif; transition: height 0.3s ease;">
@@ -536,6 +532,7 @@
             const sendBtn = document.getElementById('chatbot-send');
             const body = document.getElementById('chatbot-body');
 
+            // Clear initial message on first interaction
             let isFirstMessage = true;
 
             toggle.addEventListener('click', () => {
@@ -576,60 +573,30 @@
                     msgDiv.style.fontSize = '13px';
                 }
                 
+                // Support basic markdown-like formatting
                 msgDiv.innerHTML = formatMessage(text);
                 body.appendChild(msgDiv);
                 body.scrollTop = body.scrollHeight;
             }
 
             function formatMessage(text) {
+                // Bold text
                 text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                // Line breaks
                 text = text.replace(/\n/g, '<br>');
+                // Links
                 text = text.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" style="color: #c41e3a; text-decoration: underline;">$1</a>');
                 return text;
             }
 
-            async function sendMessage() {
+            function sendMessage() {
                 const userInput = input.value.trim();
                 if (!userInput) return;
 
                 addMessage(userInput, 'user');
                 input.value = '';
-                
-                // Show loading indicator
-                const loadingDiv = document.createElement('div');
-                loadingDiv.id = 'chatbot-loading';
-                loadingDiv.style.padding = '12px 16px';
-                loadingDiv.style.textAlign = 'center';
-                loadingDiv.style.color = '#666';
-                loadingDiv.innerHTML = '⏳ Thinking...';
-                body.appendChild(loadingDiv);
-                body.scrollTop = body.scrollHeight;
 
-                // Wait for response (async now)
-                setTimeout(async () => {
-                    const response = await chatbot.chat(userInput);
-                    
-                    // Remove loading indicator
-                    const loading = document.getElementById('chatbot-loading');
-                    if (loading) loading.remove();
-                    
-                    if (response) {
-                        addMessage(response, 'bot');
-                    }
-                }, 300);
-            }
-
-            sendBtn.addEventListener('click', sendMessage);
-
-            input.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    sendMessage();
-                }
-            });
-
-            toggle.style.display = 'flex';
-        })();
-    </script>
-</body>
-</html>
+                // Simulate slight typing delay for natural feel
+                setTimeout(() => {
+                    const response = chatbot.chat(userInput);
+                    if

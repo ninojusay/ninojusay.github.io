@@ -1,0 +1,29 @@
+# Environment variables (NEVER commit API keys!)
+.env
+.env.local
+.env.*.local
+
+# Node modules
+node_modules/
+package-lock.json
+yarn.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Build
+dist/
+build/
+
+# Testing
+coverage/
+.nyc_output/
