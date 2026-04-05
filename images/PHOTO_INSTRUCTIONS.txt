@@ -1,0 +1,58 @@
+📸 PHOTO REQUIREMENTS FOR PORTFOLIO
+=====================================
+
+Replace these placeholder image files with your real photos:
+
+REQUIRED PROFILE PHOTOS:
+------------------------
+1. profile-1.jpeg - YOUR PROFILE PHOTO (400x400px)
+   - Used in: About section, Teams section
+   - Format: Professional headshot
+   - Size: 400x400 pixels (or scale automatically)
+   
+2. profile-2.jpeg - TEAM MEMBER (Wilson Gayo)
+   - Used in: Teams carousel
+   - Size: 150x150 pixels recommended
+
+3. profile-3.jpeg - TEAM MEMBER (Jan Melvey Sabal)
+   - Used in: Teams carousel
+   - Size: 150x150 pixels recommended
+
+4. profile-4.jpeg - TEAM MEMBER (Eb Biz)
+   - Used in: Teams carousel
+   - Size: 150x150 pixels recommended
+
+5. profile-5.jpeg - TEAM MEMBER (Nicanor Nuñez)
+   - Used in: Teams carousel
+   - Size: 150x150 pixels recommended
+
+OPTIONAL PROJECT THUMBNAILS:
+-----------------------------
+project-1.jpg - E-Commerce Store screenshot
+project-2.jpg - Business Dashboard screenshot
+project-3.jpg - Social Media App screenshot
+project-4.jpg - Blogging Platform screenshot
+project-5.jpg - LMS screenshot
+project-6.jpg - Inventory Management screenshot
+
+OPTIONAL BANNER IMAGE:
+----------------------
+banner.jpg - Used as background for home section
+- Size: 1920x1080 pixels
+- Should be professional/tech related
+
+HOW TO ADD:
+-----------
+1. Save your photos in this directory (images/)
+2. Ensure filenames match exactly (case-sensitive on Linux)
+3. Recommended format: JPG or PNG
+4. For best performance: compress images (use tinypng.com)
+5. Test locally with: npx http-server -p 8000
+
+PHOTO TIPS:
+-----------
+✓ Use professional photos for profile
+✓ Ensure good lighting and clear quality
+✓ Crop to exact dimensions mentioned
+✓ Use consistent style across team photos
+✓ For projects: use actual screenshots or mockups

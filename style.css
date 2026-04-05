@@ -88,7 +88,8 @@ section .title::after{
 }
 .navbar.sticky{
     padding: 15px 0;
-    background: crimson;
+    background: linear-gradient(135deg, crimson 0%, #c41e3a 100%);
+    box-shadow: 0 4px 20px rgba(220, 20, 60, 0.3);
 }
 .navbar .max-width{
     display: flex;
@@ -137,7 +138,7 @@ section .title::after{
     position: fixed;
     height: 45px;
     width: 42px;
-    background: crimson;
+    background: linear-gradient(135deg, crimson 0%, #c41e3a 100%);
     right: 30px;
     bottom: 10px;
     text-align: center;
@@ -151,6 +152,7 @@ section .title::after{
     opacity: 0;
     pointer-events: none;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
 }
 .scroll-up-btn.show{
     bottom: 30px;
@@ -158,14 +160,15 @@ section .title::after{
     pointer-events: auto;
 }
 .scroll-up-btn:hover{
-    filter: brightness(90%);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(220, 20, 60, 0.4);
 }
 
 
 /* home section styling */
 .home{
     display: flex;
-    background: url("images/banner.jpg") no-repeat center;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, crimson 100%);
     height: 100vh;
     color: #fff;
     min-height: 500px;
@@ -198,7 +201,7 @@ section .title::after{
 }
 .home .home-content a{
     display: inline-block;
-    background: crimson;
+    background: linear-gradient(135deg, crimson 0%, #c41e3a 100%);
     color: #fff;
     font-size: 25px;
     padding: 12px 36px;
@@ -207,10 +210,12 @@ section .title::after{
     border-radius: 6px;
     border: 2px solid crimson;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
 }
 .home .home-content a:hover{
     color: crimson;
     background: none;
+    transform: translateY(-2px);
 }
 
 /* about section styling */
@@ -225,6 +230,11 @@ section .title::after{
     width: 400px;
     object-fit: cover;
     border-radius: 6px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+}
+.about .about-content .left img:hover{
+    transform: scale(1.03);
 }
 .about .about-content .right{
     width: 55%;
@@ -242,7 +252,7 @@ section .title::after{
 }
 .about .about-content .right a{
     display: inline-block;
-    background: crimson;
+    background: linear-gradient(135deg, crimson 0%, #c41e3a 100%);
     color: #fff;
     font-size: 20px;
     font-weight: 500;
@@ -251,10 +261,12 @@ section .title::after{
     border-radius: 6px;
     border: 2px solid crimson;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
 }
 .about .about-content .right a:hover{
     color: crimson;
     background: none;
+    transform: translateY(-2px);
 }
 
 /* services section styling */
@@ -279,9 +291,12 @@ section .title::after{
     padding: 50px 25px;
     cursor: pointer;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 .services .serv-content .card:hover{
-    background: crimson;
+    background: linear-gradient(135deg, crimson 0%, #c41e3a 100%);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(220, 20, 60, 0.3);
 }
 .services .serv-content .card .box{
     transition: all 0.3s ease;
@@ -321,7 +336,7 @@ section .title::after{
 }
 .skills .skills-content .left a{
     display: inline-block;
-    background: crimson;
+    background: linear-gradient(135deg, crimson 0%, #c41e3a 100%);
     color: #fff;
     font-size: 18px;
     font-weight: 500;
@@ -330,10 +345,12 @@ section .title::after{
     border-radius: 6px;
     border: 2px solid crimson;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
 }
 .skills .skills-content .left a:hover{
     color: crimson;
     background: none;
+    transform: translateY(-2px);
 }
 .skills .skills-content .right .bars{
     margin-bottom: 15px;
@@ -416,6 +433,42 @@ section .title::after{
     width: 60%;
 }
 
+.skills-content .right .ai-ml::before{
+    width: 75%;
+}
+
+.skills-content .right .deep-learning::before{
+    width: 70%;
+}
+
+.skills-content .right .data-science::before{
+    width: 72%;
+}
+
+.skills-content .right .angular::before{
+    width: 80%;
+}
+
+.skills-content .right .dotnet::before{
+    width: 85%;
+}
+
+.skills-content .right .nodejs::before{
+    width: 80%;
+}
+
+.skills-content .right .sqlserver::before{
+    width: 80%;
+}
+
+.skills-content .right .entityframework::before{
+    width: 80%;
+}
+
+.skills-content .right .python::before{
+    width: 80%;
+}
+
 /* teams section styling */
 .teams .title::after{
     content: "who with me";
@@ -427,9 +480,12 @@ section .title::after{
     text-align: center;
     overflow: hidden;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 .teams .carousel .card:hover{
-    background: crimson;
+    background: linear-gradient(135deg, crimson 0%, #c41e3a 100%);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(220, 20, 60, 0.3);
 }
 .teams .carousel .card .box{
     display: flex;
@@ -566,13 +622,15 @@ section .title::after{
   border-radius: 6px;
   cursor: pointer;
   flex-wrap: nowrap;
-  background: crimson;
+  background: linear-gradient(135deg, crimson 0%, #c41e3a 100%);
   border: 2px solid crimson;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
 }
 .right form .button-area button:hover{
   color: crimson;
   background: none;
+  transform: translateY(-2px);
 }
 /* footer section styling */
 footer{
@@ -587,6 +645,219 @@ footer span a{
 }
 footer span a:hover{
     text-decoration: underline;
+}
+
+/* achievements and certificates styling */
+.achievements{
+    background: linear-gradient(135deg, #f9f9f9 0%, #f0f0f0 100%);
+}
+.achievements .title::after{ content: "my milestones"; }
+.ach-content .ach-list{ 
+    list-style: none; 
+    padding: 0; 
+    max-width: 800px; 
+    margin: 0 auto; 
+}
+.ach-content .ach-list li{ 
+    padding: 16px 20px; 
+    border-left: 4px solid crimson; 
+    background: #fff; 
+    margin-bottom: 12px; 
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+.ach-content .ach-list li:hover{
+    transform: translateX(8px);
+    box-shadow: 0 6px 16px rgba(220, 20, 60, 0.15);
+}
+
+.certificates{ background: #fff; }
+.certificates .title::after{ content: "my certifications"; }
+.cert-grid{ 
+    display: grid; 
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 20px;
+}
+.cert-card{ 
+    display: block; 
+    padding: 24px 20px; 
+    background: linear-gradient(135deg, #222 0%, #1a1a1a 100%);
+    color: #fff; 
+    text-align: center; 
+    border-radius: 6px; 
+    text-decoration: none; 
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border: 2px solid transparent;
+}
+.cert-card:hover{ 
+    transform: translateY(-8px);
+    background: linear-gradient(135deg, crimson 0%, #c41e3a 100%);
+    box-shadow: 0 12px 24px rgba(220, 20, 60, 0.3);
+    border-color: #fff;
+}
+.cert-note{ 
+    text-align: center; 
+    margin-top: 20px; 
+    color: #666;
+    font-size: 14px;
+}
+
+/* projects section styling */
+.projects{
+    background: #fff;
+}
+.projects .title::after{ content: "my portfolio"; }
+.proj-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+.proj-card{
+    background: linear-gradient(135deg, #222 0%, #1a1a1a 100%);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+}
+.proj-card:hover{
+    transform: translateY(-12px);
+    box-shadow: 0 12px 30px rgba(220, 20, 60, 0.2);
+    border-top: 3px solid crimson;
+}
+.proj-header{
+    background: linear-gradient(135deg, crimson 0%, #c41e3a 100%);
+    padding: 30px;
+    text-align: center;
+    font-size: 40px;
+}
+.proj-content{
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+.proj-content h3{
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #fff;
+}
+.proj-content p{
+    font-size: 14px;
+    color: #ccc;
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+.proj-tags{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+.proj-tags span{
+    background: rgba(220, 20, 60, 0.2);
+    color: crimson;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+.proj-link{
+    color: crimson;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+.proj-link:hover{
+    color: #fff;
+}
+
+/* chatbots section styling */
+.chatbots{
+    background: linear-gradient(135deg, #f0f0f0 0%, #fff 100%);
+}
+.chatbots .title::after{ content: "intelligent bots"; }
+.chatbot-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+.chatbot-card{
+    background: #fff;
+    border-radius: 8px;
+    padding: 30px 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent;
+}
+.chatbot-card:hover{
+    transform: translateY(-12px);
+    box-shadow: 0 12px 30px rgba(220, 20, 60, 0.2);
+    border-color: crimson;
+}
+.chatbot-icon{
+    font-size: 50px;
+    color: crimson;
+    margin-bottom: 15px;
+}
+.chatbot-card h3{
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #222;
+}
+.chatbot-card p{
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+.chatbot-features{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+.chatbot-features span{
+    background: linear-gradient(135deg, rgba(220, 20, 60, 0.1) 0%, rgba(196, 30, 58, 0.1) 100%);
+    color: crimson;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+.chatbot-link{
+    display: inline-block;
+    background: linear-gradient(135deg, crimson 0%, #c41e3a 100%);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+.chatbot-link:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(220, 20, 60, 0.3);
+}
+
+@media (max-width: 947px){
+    .cert-grid{ grid-template-columns: repeat(2, 1fr); }
+    .proj-grid,
+    .chatbot-grid{ 
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 690px){
+    .cert-grid{ grid-template-columns: 1fr; }
+    .proj-grid,
+    .chatbot-grid{ 
+        grid-template-columns: 1fr;
+    }
 }
 
 
